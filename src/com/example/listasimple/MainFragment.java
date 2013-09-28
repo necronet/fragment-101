@@ -22,24 +22,32 @@ public class MainFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.elnombrequequieran, container, false);
-		
-		ListView list = (ListView)view.findViewById(R.id.mylistview);
-        ArrayAdapter<String> adapter =  new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, Arrays.asList(nombres));
-        list.setAdapter(adapter);
-        
-       list.setOnItemClickListener(new OnItemClickListener() {
+		View view = inflater.inflate(R.layout.elnombrequequieran, container,
+				false);
+
+		ListView list = (ListView) view.findViewById(R.id.mylistview);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+				android.R.layout.simple_list_item_1, Arrays.asList(nombres));
+		list.setAdapter(adapter);
+
+		list.setOnItemClickListener(new OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-			//El context source
-			//Componente a donde va
+			
+			if(getResources().getBoolean(R.bool.is_tablet)) {
+				//aqui lo que es para tabletas
+				((MainListaActivity)getActivity()).updateDetail( nombres[position]);
+				
+			} else {
 				Intent intent = new Intent(getActivity(), DetailActivity.class);
+				
+				//K,V
+				intent.putExtra("nombre", nombres[position]);
+				
+				startActivity(intent);
+			}
 			
-			//K,V
-			intent.putExtra("nombre", nombres[position]);
-			
-			startActivity(intent);
 		}
 	});
 		
